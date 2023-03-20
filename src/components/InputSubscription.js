@@ -14,7 +14,7 @@ export default function InputSubscription({
 }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const { setGenresId } = useAuth();
   // console.log(location);
   const handleSubmit = (event) => {
