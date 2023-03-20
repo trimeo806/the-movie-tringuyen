@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth";
 function SearchAndGenres() {
   const location = useLocation();
   const [genresData, setGenresData] = useState([]);
-  const { setGenresId } = useAuth();
+  const { genresId, setGenresId } = useAuth();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -18,7 +18,6 @@ function SearchAndGenres() {
             `https://api.themoviedb.org/3/genre/movie/list?api_key=62ebcac153a866a6c841db9d4c93d150&language=en-US`
           );
           setGenresData(res.data.genres);
-          // console.log(res.data.genres);
         } else if (location.pathname === `/tv%20shows`) {
           const res = await axios.get(
             `https://api.themoviedb.org/3/genre/tv/list?api_key=62ebcac153a866a6c841db9d4c93d150&language=en-US`
@@ -43,9 +42,11 @@ function SearchAndGenres() {
   };
   return (
     <Grid container flexDirection="column" width="100%">
-      <Grid item>
-        <InputSubscription></InputSubscription>
-      </Grid>
+      {!genresId ? (
+        <Grid item>
+          <InputSubscription></InputSubscription>
+        </Grid>
+      ) : null}
 
       <Grid item>
         <Typography variant="h6" sx={{ margin: "10px 5px 10px 5px" }}>

@@ -3,10 +3,13 @@ import FormControl from "@mui/joy/FormControl";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function InputSubscription() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setGenresId } = useAuth();
+
   console.log(location);
   let [searchParams, setSearchParams] = useSearchParams();
   const handleSubmit = (event) => {
@@ -14,6 +17,7 @@ export default function InputSubscription() {
     console.log(event.target[0].value);
     const query = event.target[0].value;
     console.log(searchParams);
+    setGenresId(null);
     let name;
     if (location.pathname === "/movie") {
       name = "Movie";
@@ -48,6 +52,7 @@ export default function InputSubscription() {
                 name = "TV Shows";
               }
               setSearchParams({});
+              setGenresId(null);
               navigate(`${location.pathname}`, {
                 state: { from: location, name: name },
               });
