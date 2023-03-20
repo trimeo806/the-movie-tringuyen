@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import FormControl from "@mui/joy/FormControl";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
@@ -8,6 +9,7 @@ import useAuth from "../hooks/useAuth";
 export default function InputSubscription() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(false);
   const { setGenresId } = useAuth();
 
   console.log(location);
@@ -30,6 +32,7 @@ export default function InputSubscription() {
       navigate(`${location.pathname}?query=${query}`, {
         state: { from: location, name: name },
       });
+      setDisabled(true);
     } else if (query === "") {
       setSearchParams("");
     }
@@ -45,6 +48,7 @@ export default function InputSubscription() {
           onChange={(event) => {
             let query = event.target.value;
             if (!query) {
+              setDisabled(true);
               let name;
               if (location.pathname === "/movie") {
                 name = "Movie";
@@ -57,9 +61,13 @@ export default function InputSubscription() {
                 state: { from: location, name: name },
               });
             }
+            if (query) {
+              setDisabled(false);
+            }
           }}
           endDecorator={
             <Button
+              disabled={disabled}
               variant="solid"
               color="primary"
               type="submit"
