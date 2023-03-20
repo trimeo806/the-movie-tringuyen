@@ -41,9 +41,7 @@ const AuthContext = createContext({ ...initialState });
 
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [genresId, setGenresId] = useState(
-    window.localStorage.getItem("genresId") || null
-  );
+  const [genresId, setGenresId] = useState(null);
 
   useEffect(() => {
     const initialize = async () => {

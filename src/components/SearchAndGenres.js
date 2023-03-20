@@ -35,10 +35,10 @@ function SearchAndGenres() {
   const handleClick = (e) => {
     if (e.target.value === "home") {
       setGenresId(null);
-      window.localStorage.setItem("genresId", null);
+      // window.localStorage.setItem("genresId", null);
     } else {
       setGenresId(e.target.id);
-      window.localStorage.setItem("genresId", e.target.id.toString());
+      // window.localStorage.setItem("genresId", e.target.id.toString());
     }
   };
   return (
