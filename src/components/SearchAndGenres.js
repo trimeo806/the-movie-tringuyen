@@ -66,6 +66,7 @@ function SearchAndGenres() {
         <Grid container>
           <Grid item>
             <Button
+              disabled={disabledGenres}
               label="home"
               value="home"
               variant="outlined"
