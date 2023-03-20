@@ -3,17 +3,20 @@ import { useState } from "react";
 import FormControl from "@mui/joy/FormControl";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
-import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
-export default function InputSubscription() {
+export default function InputSubscription({
+  disabledGenres,
+  setDisabledGenres,
+  searchParams,
+  setSearchParams,
+}) {
   const location = useLocation();
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
   const { setGenresId } = useAuth();
-
-  console.log(location);
-  let [searchParams, setSearchParams] = useSearchParams();
+  // console.log(location);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(event.target[0].value);
@@ -27,14 +30,15 @@ export default function InputSubscription() {
       name = "TV Shows";
     }
     if (query) {
-      console.log(query);
       setSearchParams({ query });
       navigate(`${location.pathname}?query=${query}`, {
         state: { from: location, name: name },
       });
       setDisabled(true);
+      setDisabledGenres(true);
     } else if (query === "") {
       setSearchParams("");
+      setDisabledGenres(false);
     }
   };
 
@@ -49,6 +53,8 @@ export default function InputSubscription() {
             let query = event.target.value;
             if (!query) {
               setDisabled(true);
+              setDisabledGenres(false);
+
               let name;
               if (location.pathname === "/movie") {
                 name = "Movie";
@@ -63,6 +69,7 @@ export default function InputSubscription() {
             }
             if (query) {
               setDisabled(false);
+              setDisabledGenres(true);
             }
           }}
           endDecorator={

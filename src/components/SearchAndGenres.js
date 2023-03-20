@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import InputSubscription from "../components/InputSubscription";
 import { Typography, Grid, Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 
@@ -9,6 +9,8 @@ function SearchAndGenres() {
   const location = useLocation();
   const [genresData, setGenresData] = useState([]);
   const { genresId, setGenresId } = useAuth();
+  const [disabledGenres, setDisabledGenres] = useState(false);
+  let [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -34,6 +36,7 @@ function SearchAndGenres() {
   const handleClick = (e) => {
     if (e.target.value === "home") {
       setGenresId(null);
+      setDisabledGenres(false);
       // window.localStorage.setItem("genresId", null);
     } else {
       setGenresId(e.target.id);
@@ -44,7 +47,12 @@ function SearchAndGenres() {
     <Grid container flexDirection="column" width="100%">
       {!genresId ? (
         <Grid item>
-          <InputSubscription></InputSubscription>
+          <InputSubscription
+            disabledGenres={disabledGenres}
+            setDisabledGenres={setDisabledGenres}
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+          ></InputSubscription>
         </Grid>
       ) : null}
 
@@ -71,6 +79,7 @@ function SearchAndGenres() {
           {genresData?.map((genre) => (
             <Grid item key={genre.id}>
               <Button
+                disabled={disabledGenres}
                 label={genre.name}
                 value={genre.name}
                 variant="outlined"
